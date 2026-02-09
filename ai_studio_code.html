@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>e-RPH Sains Tingkatan 2 (Full Data)</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- html2pdf.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+
+        /* --- LOADING OVERLAY --- */
+        #loading-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.95); z-index: 9999;
+            display: flex; justify-content: center; align-items: center; flex-direction: column;
+            visibility: hidden; opacity: 0; transition: opacity 0.2s;
+        }
+        #loading-overlay.active { visibility: visible; opacity: 1; }
+
+        /* --- PDF PREVIEW (Disembunyikan) --- */
+        #pdf-preview-section {
+            display: none; background: white; width: 210mm; min-height: 297mm;
+            margin: 0 auto; padding: 15mm;
+        }
+        
+        /* Mod Generasi PDF */
+        body.generating-mode #main-form, body.generating-mode nav { display: none; }
+        body.generating-mode #pdf-preview-section { display: block; }
+        body.generating-mode { background-color: white; }
+
+        /* Table Styling */
+        .official-table {
+            width: 100%; border-collapse: collapse; border: 1px solid #000;
+            font-family: 'Times New Roman', Times, serif; font-size: 11pt; color: #000;
+        }
+        .official-table td {
+            border: 1px solid #000; padding: 5px 8px; vertical-align: top; line-height: 1.3;
+        }
+        .bg-gray-official { background-color: #e5e7eb; font-weight: bold; width: 20%; }
+        
+        .text-content { white-space: pre-wrap; text-align: justify; }
+        .refleksi-line { border-bottom: 1px solid #000; height: 25px; margin-top: 5px; }
+
+        /* AI Button */
+        .ai-btn {
+            background: linear-gradient(90deg, #4f46e5, #7c3aed);
+            color: white; font-size: 0.7rem; font-weight: bold;
+            padding: 4px 10px; border-radius: 5px; cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .ai-btn:hover { opacity: 0.9; }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Loading Screen -->
+    <div id="loading-overlay">
+        <div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-900 border-t-transparent mb-4"></div>
+        <h2 id="loading-text" class="text-xl font-bold text-gray-800">Sedang Memproses...</h2>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="bg-blue-900 text-white shadow-lg sticky top-0 z-40">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <img src="https://i.postimg.cc/15tfw5q1/logo-kedit.avif" alt="Logo" class="h-12 w-auto bg-white rounded-full p-0.5">
+                <div>
+                    <h1 class="text-lg font-bold leading-tight uppercase">e-RPH Sains T2 (Full Data)</h1>
+                    <p class="text-xs text-blue-200 uppercase">SMK Datuk Patinggi Kedit</p>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-form" class="max-w-4xl mx-auto px-4 py-8 pb-20">
+        
+        <!-- API KEY -->
+        <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100 mb-6">
+            <label class="block text-xs font-bold text-indigo-800 mb-1">Google Gemini API Key</label>
+            <div class="flex gap-2">
+                <input type="text" id="apiKey" class="flex-1 px-4 py-2 rounded-lg border border-indigo-300 text-sm" placeholder="Paste API Key AIzaSy... (Guna Gmail Peribadi)">
+                <button onclick="saveKey()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-xs font-bold">SIMPAN</button>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200">
+            <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+                <h2 class="text-xl font-bold text-gray-700">Butiran RPH</h2>
+            </div>
+
+            <div class="p-6 space-y-6">
+                <!-- Info Asas -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div><label class="block text-sm font-semibold mb-1">Mata Pelajaran</label><input type="text" id="inp_subject" value="Sains" class="w-full px-4 py-2 bg-gray-100 border rounded-lg" readonly></div>
+                    <div><label class="block text-sm font-semibold mb-1">Kelas</label><input type="text" id="inp_kelas" class="w-full px-4 py-2 border rounded-lg"></div>
+                    <div><label class="block text-sm font-semibold mb-1">Tarikh</label><input type="date" id="inp_tarikh" class="w-full px-4 py-2 border rounded-lg"></div>
+                    <div><label class="block text-sm font-semibold mb-1">Masa</label><input type="text" id="inp_masa" class="w-full px-4 py-2 border rounded-lg"></div>
+                </div>
+                <hr>
+
+                <!-- DSKP -->
+                <div class="bg-gray-50 p-5 rounded-lg space-y-4">
+                    <h3 class="font-bold text-gray-800 text-sm uppercase">Pilihan DSKP</h3>
+                    <div><label class="block text-sm font-bold">1. Bab</label><select id="sel_bab" onchange="updateSK()" class="w-full px-4 py-2 border rounded-lg bg-white"><option value="">-- Pilih --</option></select></div>
+                    <div><label class="block text-sm font-bold">2. Standard Kandungan (SK)</label><select id="sel_sk" onchange="updateSP()" class="w-full px-4 py-2 border rounded-lg bg-white" disabled><option value="">-- Pilih --</option></select></div>
+                    <div><label class="block text-sm font-bold">3. Standard Pembelajaran (SP)</label><select id="sel_sp" onchange="addSP()" class="w-full px-4 py-2 border rounded-lg bg-white" disabled><option value="">-- Pilih (Tambah) --</option></select></div>
+                </div>
+
+                <!-- Paparan SK/SP -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div><label class="block text-sm font-semibold mb-1">Standard Kandungan</label><textarea id="txt_sk" rows="3" class="w-full px-4 py-2 bg-gray-50 border rounded-lg" readonly></textarea></div>
+                    <div><label class="block text-sm font-semibold mb-1">Standard Pembelajaran</label><textarea id="txt_sp" rows="5" class="w-full px-4 py-2 border rounded-lg"></textarea></div>
+                </div>
+
+                <!-- AI Sections -->
+                <div>
+                    <div class="flex justify-between mb-1"><label class="block text-sm font-semibold">Objektif</label><button onclick="runAI('obj')" class="ai-btn">JANA AI</button></div>
+                    <textarea id="txt_obj" rows="3" class="w-full px-4 py-2 border rounded-lg"></textarea>
+                </div>
+                <div>
+                    <div class="flex justify-between mb-1"><label class="block text-sm font-semibold">Aktiviti (5E)</label><button onclick="runAI('akt')" class="ai-btn">JANA AI</button></div>
+                    <textarea id="txt_akt" rows="6" class="w-full px-4 py-2 border rounded-lg"></textarea>
+                </div>
+
+                <div><label class="block text-sm font-semibold">Pentaksiran</label><textarea id="txt_pbd" rows="2" class="w-full px-4 py-2 border rounded-lg"></textarea></div>
+                
+                <div class="bg-yellow-50 p-4 rounded-lg">
+                    <label class="block text-sm font-bold">Refleksi</label>
+                    <p class="text-xs text-red-600 mb-1">*PDF akan kosongkan ruang ini.</p>
+                    <textarea id="txt_ref" rows="2" class="w-full px-4 py-2 border rounded-lg"></textarea>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 px-6 py-4 flex justify-end border-t">
+                <button id="btnGenerate" onclick="genPDF()" class="bg-blue-900 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:bg-blue-800">JANA PDF</button>
+            </div>
+        </div>
+        <p class="text-center text-gray-500 text-sm mt-6 mb-10">2026 created by Cikgu Shairazi</p>
+    </main>
+
+    <!-- PDF Template -->
+    <div id="pdf-preview-section">
+        <div class="flex items-center justify-center border-b-2 border-black pb-3 mb-4">
+            <div style="width: 15%; display: flex; justify-content: center;">
+                <img src="https://i.postimg.cc/15tfw5q1/logo-kedit.avif" alt="Logo" style="width: 70px; height: auto;" crossorigin="anonymous">
+            </div>
+            <div style="width: 85%; text-align: center;">
+                <h1 class="text-xl font-bold uppercase tracking-wider">RANCANGAN PENGAJARAN HARIAN</h1>
+                <h2 class="text-lg font-bold uppercase">SMK DATUK PATINGGI KEDIT</h2>
+            </div>
+        </div>
+        <table class="official-table">
+            <tr><td class="bg-gray-official">Mata Pelajaran</td><td style="width: 35%;" id="out_subject"></td><td class="bg-gray-official">Kelas</td><td style="width: 35%;" id="out_kelas"></td></tr>
+            <tr><td class="bg-gray-official">Tarikh</td><td id="out_tarikh"></td><td class="bg-gray-official">Masa</td><td id="out_masa"></td></tr>
+            <tr><td class="bg-gray-official" colspan="4">Bab / Topik</td></tr><tr><td colspan="4" id="out_bab" style="font-weight: bold;"></td></tr>
+            <tr><td class="bg-gray-official" colspan="4">Standard Kandungan</td></tr><tr><td colspan="4" id="out_sk"></td></tr>
+            <tr><td class="bg-gray-official" colspan="4">Standard Pembelajaran</td></tr><tr><td colspan="4" id="out_sp" class="text-content"></td></tr>
+            <tr><td class="bg-gray-official" colspan="4">Objektif Pembelajaran</td></tr><tr><td colspan="4" id="out_obj" class="text-content"></td></tr>
+            <tr><td class="bg-gray-official" colspan="4">Aktiviti PdPc</td></tr><tr><td colspan="4" id="out_akt" class="text-content"></td></tr>
+            <tr><td class="bg-gray-official" colspan="4">Pentaksiran / PBD</td></tr><tr><td colspan="4" id="out_pbd" class="text-content"></td></tr>
+            <tr><td class="bg-gray-official" colspan="4">Refleksi</td></tr>
+            <tr><td colspan="4" style="height: 100px; vertical-align: top;"><div class="refleksi-line"></div><div class="refleksi-line"></div><div class="refleksi-line"></div></td></tr>
+        </table>
+    </div>
+
+    <script>
+        // DATA DSKP LENGKAP (ORIGINAL VERBOSE DATA)
+        const dskpData = {
+            "1.0 BIODIVERSITY": {
+                "1.1 Diversity of organism": [
+                    "1.1.1 Elaborate and communicate about biodiversity.",
+                    "1.1.2 Justify the needs to manage biodiversity effectively."
+                ],
+                "1.2 Classification of organisms": [
+                    "1.2.1 Differentiate organisms using a dichotomous key based on common characteristics.",
+                    "1.2.2 Characterise the major taxonomy group."
+                ]
+            },
+            "2.0 ECOSYSTEM": {
+                "2.1 Energy flow in ecosystem": [
+                    "2.1.1 Explain with examples of producer, consumer and decomposer.",
+                    "2.1.2 Interprete food chain and food web."
+                ],
+                "2.2 Nutrient cycle in the ecosystem": [
+                    "2.2.1 Elaborate and communicate about the role of living things in the oxygen and carbon cycles in the ecosystem.",
+                    "2.2.2 Justify the role of organisms in the water cycle of an ecosystem.",
+                    "2.2.3 Solve problems when there are interferences to the cycles caused by human activities."
+                ],
+                "2.3 Interdependence and interaction among organisms": [
+                    "2.3.1 Explain with examples the interdependence among living things and the environment to maintain a balanced ecosystem.",
+                    "2.3.2 Justify the importance of adaptations of living things to the environment.",
+                    "2.3.3 Communicate examples of interactions between organisms and apply these interactions in daily life.",
+                    "2.3.4 Separate the factors that affect the size of population in an ecosystem.",
+                    "2.3.5 Predict how the changes in ecosystem affect the existing resources and balance of the population."
+                ],
+                "2.4 The role of human in maintaining a balanced nature": [
+                    "2.4.1 Justify and communicate that man needs a stable and productive ecosystem to sustain life."
+                ]
+            },
+            "3.0 NUTRITION": {
+                "3.1 Classes of food": [
+                    "3.1.1 Elaborate and communicate about classes of food.",
+                    "3.1.2 Test the presence of starch, glucose, protein and fats in food."
+                ],
+                "3.2 Importance of a balanced diet": [
+                    "3.2.1 Elaborate and communicate about a balanced diet.",
+                    "3.2.2 Estimate calories of food intake in a meal and plan a balanced diet.",
+                    "3.2.3 Conduct a research and justify the importance of a balanced diet, exercise and a healthy lifestyle."
+                ],
+                "3.3 Human's digestive system": [
+                    "3.3.1 Elaborate and communicate about digestion."
+                ],
+                "3.4 Process of absorption and transportation of digested food and defecation": [
+                    "3.4.1 Conduct an experiment to explain the absorption of the end products of digestion.",
+                    "3.4.2 Relate the function of digestive system, blood circulatory system and respiratory system.",
+                    "3.4.3 Elaborate and communicate about defecation."
+                ]
+            },
+            "4.0 HUMAN HEALTH": {
+                "4.1 Infectious and non-infectious diseases": [
+                    "4.1.1 Differentiate and communicate about infectious and non-infectious diseases.",
+                    "4.1.2 Explain how infectious diseases are spread.",
+                    "4.1.3 Separate the cause and spread of infectious diseases.",
+                    "4.1.4 Generate ideas on the mechanism to prevent the spread of infectious diseases."
+                ],
+                "4.2 Body defence system": [
+                    "4.2.1 Elaborate and communicate about the function of body defence system.",
+                    "4.2.2 Define antigens, antibodies and immunity.",
+                    "4.2.3 Justify the importance of immunisation.",
+                    "4.2.4 Differentiate passive immunity and active immunity.",
+                    "4.2.5 Justify good practices towards attaining strong immune system.",
+                    "4.2.6 Justify and communicate about the importance of immunisation and health level."
+                ]
+            },
+            "5.0 WATER AND SOLUTION": {
+                "5.1 Physical characteristics of water": [
+                    "5.1.1 Elaborate and communicate about water.",
+                    "5.1.2 Carry out experiments and communicate about the water evaporation process in daily life."
+                ],
+                "5.2 Solution and rate of solubility": [
+                    "5.2.1 Explain with example the meaning of solution and solubility.",
+                    "5.2.2 Carry out experiment to determine the factors affecting the rate of solubility.",
+                    "5.2.3 Explain with examples the meaning of colloids in daily life.",
+                    "5.2.4 Elaborate and communicate the uses of water as a universal solvent.",
+                    "5.2.5 Demonstrate examples of organic solvent and their uses in daily life."
+                ],
+                "5.3 Water purification and water supply": [
+                    "5.3.1 Demonstrate the water purification method.",
+                    "5.3.2 Solve problems in getting water supply for daily life usage.",
+                    "5.3.3 Build a model and communicate about water supply system.",
+                    "5.3.4 Justify water sustainability as a key to healthy living."
+                ]
+            },
+            "6.0 ACID AND ALKALI": {
+                "6.1 Properties of acid and alkali": [
+                    "6.1.1 Defining operationally acid and alkali.",
+                    "6.1.2 Explain with examples of acidic and alkaline subtances.",
+                    "6.1.3 Demonstrate the technique to determine the strength of acid and alkali based on pH value.",
+                    "6.1.4 Identify the uses of acid and alkali in daily life."
+                ],
+                "6.2 Neutralisation": [
+                    "6.2.1 Explain the neutralization reaction.",
+                    "6.2.2 Explain with examples the use of neutralisation reaction in daily life."
+                ]
+            },
+            "7.0 ELECTRICITY AND MAGNETISM": {
+                "7.1 Electricity": [
+                    "7.1.1 Describe and communicate about energy.",
+                    "7.1.2 Explain and communicate about the existence of electrostatic charges.",
+                    "7.1.3 Explain with examples on electrostatic in daily life.",
+                    "7.1.4 Draw a conclusion that the flow of charges produce electric current.",
+                    "7.1.5 Characterise current, voltage and resistance and their units.",
+                    "7.1.6 Draw a conclusion on the relationship between current, voltage and resistance."
+                ],
+                "7.2 The flow of electric current in series circuit and parallel circuit": [
+                    "7.2.1 Elaborate and communicate about the flow of electric current in series circuit and parallel circuit."
+                ],
+                "7.3 Magnetism": [
+                    "7.3.1 Draw a conclusion about the characteristics of a magnet.",
+                    "7.3.2 Describe and communicate about electromagnet.",
+                    "7.3.3 Carry out an experiment and communicate about the uses of magnet and electromagnet in daily life."
+                ]
+            },
+            "8.0 FORCE AND MOTION": {
+                "8.1 Force": [
+                    "8.1.1 Elaborate and communicate about force.",
+                    "8.1.2 Explain that force has magnitude, direction and point of application.",
+                    "8.1.3 Measure force in S.I. unit.",
+                    "8.1.4 Explain with examples that every action force has an equal reaction force."
+                ],
+                "8.2 Effects of force": [
+                    "8.2.1 Elaborate and communicate about the effects of force.",
+                    "8.2.2 Explain and communicate the relationship between the differences in densities and the effects of bouyancy.",
+                    "8.2.3 Classify and solve problems on levers based on the position of fulcrum, load and effort.",
+                    "8.2.4 Explain and communicate about the moment of force.",
+                    "8.2.5 Carry out an experiment and communicate about pressure and its application in daily life.",
+                    "8.2.6 Elaborate and communicate about gas pressure based on the kinetic theory of gas.",
+                    "8.2.7 Explain and communicate about the existance of atmospheric pressure.",
+                    "8.2.8 Explain the effects of depth on liquid pressure."
+                ]
+            },
+            "9.0 HEAT": {
+                "9.1 Temperature and heat": [
+                    "9.1.1 Make a comparison between heat and temperature."
+                ],
+                "9.2 Heat flow and thermal equilibrium": [
+                    "9.2.1 Explain how heat flows from a hot region to a cold region.",
+                    "9.2.2 Explain and communicate about heat flow in natural phenomena.",
+                    "9.2.3 Communicate about heat conductors and heat insulators and their uses in daily life."
+                ],
+                "9.3 Principle of expansion and contraction of matter": [
+                    "9.3.1 Explain how heat can cause the expansion and contraction in solid, liquid and gas.",
+                    "9.3.2 Communicate about the various uses of expansion and contraction of matter in daily life."
+                ],
+                "9.4 Relation between the types of surfaces of objects to heat absorption and emission": [
+                    "9.4.1 Demonstrate how dark, dull objects absorb heat better than white, shiny objects.",
+                    "9.4.2 Demonstrate how dark, dull objects radiate heat better than white, shiny objects.",
+                    "9.4.3 Conceptualise and design using the heat concept in daily life."
+                ]
+            },
+            "10.0 SOUND WAVES": {
+                "10.1 Characteristics of sound waves": [
+                    "10.1.1 communicate about the basic characteristics of sound waves."
+                ],
+                "10.2 Loudness and pitch of sound": [
+                    "10.2.1 Explain frequency and its unit, and amplitude of vibration.",
+                    "10.2.2 Relate frequency to pitch.",
+                    "10.2.3. Relate amplitude to loudness.",
+                    "10.2.4 Explain with examples loudness and pitch using musical instruments."
+                ],
+                "10.3 Phenomena and aplications of reflection of sound waves": [
+                    "10.3.1 Explain with example phenomena related to reflection of sound waves such as echo and Doppler effect",
+                    "10.3.2 Explain with example the applications of reflection of sound waves",
+                    "10.3.3 Elaborate and communicate about limitations of hearing for humans and animals",
+                    "10.3.4 Explain with examples ways to overcome human limitations of hearing"
+                ]
+            },
+            "11.0 STARS AND GALAXIES IN THE UNIVERSE": {
+                "11.1 Stars and galaxies in the universe": [
+                    "11.1.1 Communicate about the characteristics of objects in space.",
+                    "11.1.2 Compare and contrast the characteristics of stars (including the Sun) and relate them to the obsevation of stars on the Earth."
+                ]
+            },
+            "12.0 SOLAR SYSTEM": {
+                "12.1 Solar System": [
+                    "12.1.1 Compare distances between the Sun and the planets in the Solar System using astronomical units (a.u.) and light years.",
+                    "12.1.2 Construct a table to compare and contrast the planets in the Solar System with the Earth.",
+                    "12.1.3 Explore the possible relationship based on the planets’ characteristics.",
+                    "12.1.4 Reason and make analogies in hypothetical situations related to the Solar System.",
+                    "12.1.5 Justify the Earth as the most ideal planet for life based on data collected."
+                ]
+            },
+            "13.0 METEOROID, ASTEROID, COMET": {
+                "13.1 Other objects in the Solar System": [
+                    "13.1.1 Communicate on other objects in the solar system, such as meteoroids, asteroids dan comets.",
+                    "13.1.2 Discuss the movements of meteoroids, asteroids and comets and their effects on the Earth based on data.",
+                    "13.1.3 Generate ideas on how to reduce or prevent the possibility of asteroids colliding with the Earth."
+                ]
+            }
+        };
+
+        // --- INIT ---
+        window.onload = function() {
+            const babSelect = document.getElementById("sel_bab");
+            for (let bab in dskpData) {
+                let opt = document.createElement("option"); opt.value = bab; opt.text = bab; babSelect.add(opt);
+            }
+            if(localStorage.getItem('gemini_key')) document.getElementById('apiKey').value = localStorage.getItem('gemini_key');
+        };
+
+        // --- FUNCTIONS ---
+        function saveKey() {
+            localStorage.setItem('gemini_key', document.getElementById('apiKey').value.trim());
+            alert("Key Disimpan!");
+        }
+
+        function updateSK() {
+            const bab = document.getElementById("sel_bab").value;
+            const sk = document.getElementById("sel_sk");
+            sk.innerHTML = '<option value="">-- Pilih --</option>';
+            document.getElementById("sel_sp").innerHTML = '<option value="">-- Pilih --</option>';
+            document.getElementById("txt_sk").value = "";
+            document.getElementById("txt_sp").value = "";
+            document.getElementById("sel_sp").disabled = true;
+            if(bab) {
+                sk.disabled = false;
+                for(let k in dskpData[bab]) sk.add(new Option(k, k));
+            } else {
+                sk.disabled = true;
+            }
+        }
+
+        function updateSP() {
+            const bab = document.getElementById("sel_bab").value;
+            const k = document.getElementById("sel_sk").value;
+            const sp = document.getElementById("sel_sp");
+            document.getElementById("txt_sk").value = k;
+            sp.innerHTML = '<option value="">-- Pilih (Tambah) --</option>';
+            document.getElementById("txt_sp").value = "";
+            if(bab && k) {
+                sp.disabled = false;
+                dskpData[bab][k].forEach(p => {
+                    let opt = new Option(p.length > 80 ? p.substring(0,80)+"..." : p, p);
+                    opt.setAttribute('data-full', p);
+                    sp.add(opt);
+                });
+            } else {
+                sp.disabled = true;
+            }
+        }
+
+        function addSP() {
+            const sp = document.getElementById("sel_sp");
+            const txt = document.getElementById("txt_sp");
+            if(sp.value) {
+                const full = sp.options[sp.selectedIndex].getAttribute('data-full');
+                if(!txt.value.includes(full)) txt.value += (txt.value ? "\n" : "") + full;
+                sp.selectedIndex = 0;
+            }
+        }
+
+        // --- AI ---
+        async function runAI(mode) {
+            const key = document.getElementById('apiKey').value.trim();
+            if(!key) return alert("Sila masukkan API Key!");
+            
+            document.getElementById('loading-overlay').classList.add('active');
+            document.getElementById('loading-text').innerText = "AI Sedang Berfikir...";
+
+            const sk = document.getElementById('txt_sk').value;
+            const sp = document.getElementById('txt_sp').value;
+            const prompt = mode === 'obj' 
+                ? `Bina 2 objektif pembelajaran SMART ringkas Bahasa Melayu: SK ${sk}, SP ${sp}. Format: Bullet point.` 
+                : `Bina aktiviti RPH Sains Model 5E (Engage, Explore, Explain, Elaborate, Evaluate) ringkas BM. Topik ${sk}, SP ${sp}.`;
+
+            try {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash-latest:generateContent?key=${key}`, {
+
+                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                });
+                const data = await res.json();
+                if(data.error) throw new Error(data.error.message);
+                document.getElementById(mode === 'obj' ? 'txt_obj' : 'txt_akt').value = data.candidates[0].content.parts[0].text;
+            } catch(e) {
+                alert("Ralat AI: " + e.message);
+            } finally {
+                document.getElementById('loading-overlay').classList.remove('active');
+            }
+        }
+
+        // --- PDF ---
+        function genPDF() {
+            window.scrollTo(0,0);
+            document.getElementById('loading-overlay').classList.add('active');
+            document.getElementById('loading-text').innerText = "Menjana PDF...";
+            document.body.classList.add('generating-mode');
+
+            // Transfer Data
+            ['subject','kelas','masa','tarikh'].forEach(id => document.getElementById('out_'+id).innerText = document.getElementById('inp_'+id).value || '-');
+            document.getElementById('out_bab').innerText = document.getElementById('sel_bab').value || '-';
+            ['sk','sp','obj','akt','pbd'].forEach(id => document.getElementById('out_'+id).innerText = document.getElementById('txt_'+id).value || '-');
+            
+            const rawD = document.getElementById('inp_tarikh').value;
+            if(rawD) {
+                const d = new Date(rawD);
+                document.getElementById('out_tarikh').innerText = d.toLocaleDateString('ms-MY', {day:'2-digit', month:'2-digit', year:'numeric'});
+            }
+
+            setTimeout(() => {
+                const el = document.getElementById('pdf-preview-section');
+                const fname = `RPH_SAINS_${document.getElementById('inp_kelas').value}.pdf`;
+                html2pdf().set({
+                    margin:0, filename:fname, image:{type:'jpeg', quality:0.98},
+                    html2canvas:{scale:2, useCORS:true, scrollY:0},
+                    jsPDF:{unit:'mm', format:'a4', orientation:'portrait'}
+                }).from(el).save().then(() => {
+                    document.body.classList.remove('generating-mode');
+                    document.getElementById('loading-overlay').classList.remove('active');
+                });
+            }, 800);
+        }
+    </script>
+</body>
+</html>
