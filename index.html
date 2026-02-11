@@ -3,16 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>e-RPH Sains SMK Datuk Patinggi Kedit </title>
+    <title>e-RPH Sains SMK Datuk Patinggi Kedit</title>
+    
+    <!-- Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    
+    <!-- LINK KE FAIL DATA (PENTING) -->
+    <script src="data.js"></script>
 
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
         
-        /* PDF Preview Hidden Section */
+        /* PDF Preview Hidden */
         #pdf-preview-section {
             display: none;
             background: white;
@@ -21,12 +26,12 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
-        /* Generating Mode Classes */
+        /* Generating Mode */
         body.generating-mode #main-form, body.generating-mode nav, body.generating-mode #floating-ai-btn { display: none; }
         body.generating-mode #pdf-preview-section { display: block; }
         body.generating-mode { background-color: white; }
 
-        /* Table Styles */
+        /* Table & Layout */
         .official-table {
             width: 100%; border-collapse: collapse; border: 1px solid #000;
             font-family: 'Times New Roman', Times, serif; font-size: 11pt; color: #000;
@@ -36,7 +41,7 @@
         .text-content { white-space: pre-wrap; text-align: justify; }
         .refleksi-line { border-bottom: 1px solid #000; height: 25px; margin-top: 5px; }
 
-        /* AI Floating Window */
+        /* AI Button */
         #floating-ai-btn { position: fixed; bottom: 30px; right: 30px; z-index: 50; animation: bounce 2s infinite; }
         #ai-modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 500px; background: white; z-index: 60; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); border-radius: 1rem; border: 2px solid #3b82f6; }
         #ai-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 55; backdrop-filter: blur(2px); }
@@ -45,7 +50,6 @@
 </head>
 <body class="text-gray-800">
 
-    <!-- Navbar -->
     <nav class="bg-blue-900 text-white shadow-lg sticky top-0 z-40">
         <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
             <div class="flex items-center space-x-3">
@@ -59,15 +63,13 @@
         </div>
     </nav>
 
-    <!-- Main Form Input -->
     <main id="main-form" class="max-w-4xl mx-auto px-4 py-8 pb-20">
         <div class="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200">
             <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
                 <h2 class="text-xl font-bold text-gray-700">Butiran RPH</h2>
             </div>
-
             <div class="p-6 space-y-6">
-                <!-- Info Asas -->
+                <!-- Inputs -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Mata Pelajaran / Subject</label>
@@ -75,7 +77,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Kelas / Class</label>
-                        <input type="text" id="inp_kelas" placeholder="Contoh: 2 DLP" class="w-full px-4 py-2 border rounded-lg">
+                        <input type="text" id="inp_kelas" placeholder="Contoh: 5 Sains 1" class="w-full px-4 py-2 border rounded-lg">
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Tarikh / Date</label>
@@ -86,10 +88,9 @@
                         <input type="text" id="inp_masa" placeholder="8.00 - 9.00 AM" class="w-full px-4 py-2 border rounded-lg">
                     </div>
                 </div>
-
                 <hr>
-
-                <!-- DSKP Selector -->
+                
+                <!-- DSKP Selectors -->
                 <div class="bg-blue-50 p-5 rounded-lg border border-blue-100 space-y-4">
                     <h3 class="font-bold text-blue-800 text-sm uppercase">Pilihan DSKP</h3>
                     <div>
@@ -103,52 +104,41 @@
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-gray-700">2. Bab / Theme</label>
-                        <select id="sel_bab" onchange="updateSK()" class="w-full px-4 py-2 border rounded-lg bg-white" disabled>
-                            <option value="">-- Select Form First --</option>
-                        </select>
+                        <select id="sel_bab" onchange="updateSK()" class="w-full px-4 py-2 border rounded-lg bg-white" disabled><option value="">-- Select Form First --</option></select>
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-gray-700">3. Standard Kandungan / Content Standard</label>
-                        <select id="sel_sk" onchange="updateSP()" class="w-full px-4 py-2 border rounded-lg bg-white" disabled>
-                            <option value="">-- Select Theme First --</option>
-                        </select>
+                        <select id="sel_sk" onchange="updateSP()" class="w-full px-4 py-2 border rounded-lg bg-white" disabled><option value="">-- Select Theme First --</option></select>
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-gray-700">4. Standard Pembelajaran / Learning Standard</label>
-                        <select id="sel_sp" onchange="addSP()" class="w-full px-4 py-2 border rounded-lg bg-white" disabled>
-                            <option value="">-- Select CS First --</option>
-                        </select>
+                        <select id="sel_sp" onchange="addSP()" class="w-full px-4 py-2 border rounded-lg bg-white" disabled><option value="">-- Select CS First --</option></select>
                     </div>
                 </div>
 
-                <!-- Paparan SK/SP -->
+                <!-- Textareas -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">Standard Kandungan (Paparan)</label>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Standard Kandungan</label>
                         <textarea id="txt_sk" rows="3" class="w-full px-4 py-2 bg-gray-50 border rounded-lg" readonly></textarea>
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">Standard Pembelajaran (Senarai)</label>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Standard Pembelajaran</label>
                         <textarea id="txt_sp" rows="5" class="w-full px-4 py-2 border rounded-lg" placeholder="Dipilih dari dropdown..."></textarea>
                     </div>
                 </div>
 
-                <!-- Input Lain + AI -->
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 flex justify-between items-center mb-1">
                         Objektif / Objectives
-                        <span class="text-xs text-blue-600 cursor-pointer bg-blue-100 px-2 py-1 rounded hover:bg-blue-200" onclick="openAIModal('obj')">
-                            <i class="fas fa-robot mr-1"></i>Jana AI
-                        </span>
+                        <span class="text-xs text-blue-600 cursor-pointer bg-blue-100 px-2 py-1 rounded hover:bg-blue-200" onclick="openAIModal('obj')"><i class="fas fa-robot mr-1"></i>Jana AI</span>
                     </label>
                     <textarea id="txt_obj" rows="3" class="w-full px-4 py-2 border rounded-lg" placeholder="1. ...&#10;2. ..."></textarea>
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 flex justify-between items-center mb-1">
                         Aktiviti / Activities
-                        <span class="text-xs text-blue-600 cursor-pointer bg-blue-100 px-2 py-1 rounded hover:bg-blue-200" onclick="openAIModal('akt')">
-                            <i class="fas fa-robot mr-1"></i>Jana AI (5E)
-                        </span>
+                        <span class="text-xs text-blue-600 cursor-pointer bg-blue-100 px-2 py-1 rounded hover:bg-blue-200" onclick="openAIModal('akt')"><i class="fas fa-robot mr-1"></i>Jana AI (5E)</span>
                     </label>
                     <textarea id="txt_akt" rows="8" class="w-full px-4 py-2 border rounded-lg" placeholder="ENGAGE: ..."></textarea>
                 </div>
@@ -156,15 +146,12 @@
                     <label class="block text-sm font-semibold text-gray-700">Pentaksiran / Assessment</label>
                     <textarea id="txt_pbd" rows="2" class="w-full px-4 py-2 border rounded-lg"></textarea>
                 </div>
-
-                <!-- Refleksi -->
                 <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
                     <label class="block text-sm font-bold text-gray-700">Refleksi / Reflection (Nota Peribadi)</label>
-                    <p class="text-xs text-red-600 mb-2 font-bold">*Akan dikosongkan dalam PDF untuk tulisan tangan / Will be blank in PDF.</p>
-                    <textarea id="txt_ref" rows="2" class="w-full px-4 py-2 border rounded-lg" placeholder="Tulis untuk rujukan / Personal notes."></textarea>
+                    <p class="text-xs text-red-600 mb-2 font-bold">*Akan dikosongkan dalam PDF.</p>
+                    <textarea id="txt_ref" rows="2" class="w-full px-4 py-2 border rounded-lg" placeholder="Tulis untuk rujukan."></textarea>
                 </div>
             </div>
-
             <div class="bg-gray-50 px-6 py-4 flex justify-end border-t">
                 <button id="btnGenerate" onclick="prepareAndPrint()" class="bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:scale-105 transition">JANA PDF</button>
             </div>
@@ -172,124 +159,56 @@
         <p class="text-center text-gray-500 text-sm mt-6 mb-10 font-medium">2026 created by Cikgu Shairazi</p>
     </main>
 
-    <!-- AI BUTTON & MODAL -->
-    <button id="floating-ai-btn" onclick="openAIModal('all')" class="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition flex items-center justify-center group">
-        <i class="fas fa-robot text-2xl"></i>
-    </button>
-
+    <!-- AI Modal -->
+    <button id="floating-ai-btn" onclick="openAIModal('all')" class="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-4 rounded-full shadow-2xl flex items-center justify-center group"><i class="fas fa-robot text-2xl"></i></button>
     <div id="ai-overlay" onclick="closeAIModal()"></div>
     <div id="ai-modal">
-        <div class="bg-gradient-to-r from-purple-600 to-blue-600 p-4 rounded-t-lg">
-            <h3 class="text-white font-bold text-lg flex items-center"><i class="fas fa-brain mr-2"></i> Pembantu AI</h3>
-        </div>
+        <div class="bg-gradient-to-r from-purple-600 to-blue-600 p-4 rounded-t-lg"><h3 class="text-white font-bold text-lg flex items-center"><i class="fas fa-brain mr-2"></i> Pembantu AI</h3></div>
         <div class="p-6">
             <div class="mb-4">
                 <label class="block text-xs font-bold text-gray-600 mb-1">API Key OpenAI</label>
                 <input type="password" id="api_key" class="w-full px-3 py-2 border rounded text-sm" placeholder="sk-..." onchange="saveApiKey()">
-                <p class="text-[10px] text-gray-400 mt-1">Disimpan secara lokal.</p>
             </div>
-            <div id="ai-status" class="hidden bg-blue-50 text-blue-800 p-3 rounded mb-4 text-sm flex items-center">
-                <i class="fas fa-circle-notch fa-spin mr-2"></i> Sedang berfikir...
-            </div>
+            <div id="ai-status" class="hidden bg-blue-50 text-blue-800 p-3 rounded mb-4 text-sm flex items-center"><i class="fas fa-circle-notch fa-spin mr-2"></i> Sedang berfikir...</div>
             <div class="space-y-2">
-                <button onclick="generateContent('obj')" class="w-full bg-green-100 text-green-800 py-2 rounded text-sm font-semibold border border-green-300">1. Objektif (Format Nombor)</button>
-                <button onclick="generateContent('akt')" class="w-full bg-yellow-100 text-yellow-800 py-2 rounded text-sm font-semibold border border-yellow-300">2. Aktiviti (Format 5E)</button>
+                <button onclick="generateContent('obj')" class="w-full bg-green-100 text-green-800 py-2 rounded text-sm font-semibold border border-green-300">1. Objektif (Nombor)</button>
+                <button onclick="generateContent('akt')" class="w-full bg-yellow-100 text-yellow-800 py-2 rounded text-sm font-semibold border border-yellow-300">2. Aktiviti (5E)</button>
                 <button onclick="generateContent('all')" class="w-full bg-purple-600 text-white py-2 rounded text-sm font-semibold shadow-lg">3. Semua Sekaligus</button>
             </div>
-            <div class="mt-4 pt-4 border-t flex justify-end">
-                <button onclick="closeAIModal()" class="text-gray-500 hover:text-gray-700 text-sm">Tutup</button>
-            </div>
+            <div class="mt-4 pt-4 border-t flex justify-end"><button onclick="closeAIModal()" class="text-gray-500 hover:text-gray-700 text-sm">Tutup</button></div>
         </div>
     </div>
 
-    <!-- PDF SECTION -->
+    <!-- PDF Template -->
     <div id="pdf-preview-section">
         <div class="flex items-center justify-center border-b-2 border-black pb-3 mb-4">
-            <div style="width: 15%; display: flex; justify-content: center;">
-                <img src="https://i.postimg.cc/15tfw5q1/logo-kedit.avif" alt="Logo" style="width: 70px; height: auto;" crossorigin="anonymous">
-            </div>
+            <div style="width: 15%; display: flex; justify-content: center;"><img src="https://i.postimg.cc/15tfw5q1/logo-kedit.avif" alt="Logo" style="width: 70px; height: auto;" crossorigin="anonymous"></div>
             <div style="width: 85%; text-align: center;">
                 <h1 class="text-xl font-bold uppercase tracking-wider" style="font-family: 'Times New Roman';">RANCANGAN PENGAJARAN HARIAN</h1>
                 <h2 class="text-lg font-bold uppercase" style="font-family: 'Times New Roman';">SMK DATUK PATINGGI KEDIT</h2>
             </div>
         </div>
-
         <table class="official-table">
-            <tr>
-                <td class="bg-gray-official" id="lbl_subject">Mata Pelajaran</td><td style="width: 35%;" id="out_subject"></td>
-                <td class="bg-gray-official" id="lbl_kelas">Kelas</td><td style="width: 35%;" id="out_kelas"></td>
-            </tr>
-            <tr>
-                <td class="bg-gray-official" id="lbl_tarikh">Tarikh</td><td id="out_tarikh"></td>
-                <td class="bg-gray-official" id="lbl_masa">Masa</td><td id="out_masa"></td>
-            </tr>
-            <tr><td class="bg-gray-official" colspan="4" id="lbl_bab">Bab / Topik</td></tr>
-            <tr><td colspan="4" id="out_bab" style="font-weight: bold;"></td></tr>
-            <tr><td class="bg-gray-official" colspan="4" id="lbl_sk">Standard Kandungan</td></tr>
-            <tr><td colspan="4" id="out_sk"></td></tr>
-            <tr><td class="bg-gray-official" colspan="4" id="lbl_sp">Standard Pembelajaran</td></tr>
-            <tr><td colspan="4" id="out_sp" class="text-content"></td></tr>
-            <tr><td class="bg-gray-official" colspan="4" id="lbl_obj">Objektif Pembelajaran</td></tr>
-            <tr><td colspan="4" id="out_obj" class="text-content"></td></tr>
-            <tr><td class="bg-gray-official" colspan="4" id="lbl_akt">Aktiviti PdPc</td></tr>
-            <tr><td colspan="4" id="out_akt" class="text-content"></td></tr>
-            <tr><td class="bg-gray-official" colspan="4" id="lbl_pbd">Pentaksiran / PBD</td></tr>
-            <tr><td colspan="4" id="out_pbd" class="text-content"></td></tr>
+            <tr><td class="bg-gray-official" id="lbl_subject">Mata Pelajaran</td><td style="width: 35%;" id="out_subject"></td><td class="bg-gray-official" id="lbl_kelas">Kelas</td><td style="width: 35%;" id="out_kelas"></td></tr>
+            <tr><td class="bg-gray-official" id="lbl_tarikh">Tarikh</td><td id="out_tarikh"></td><td class="bg-gray-official" id="lbl_masa">Masa</td><td id="out_masa"></td></tr>
+            <tr><td class="bg-gray-official" colspan="4" id="lbl_bab">Bab / Topik</td></tr><tr><td colspan="4" id="out_bab" style="font-weight: bold;"></td></tr>
+            <tr><td class="bg-gray-official" colspan="4" id="lbl_sk">Standard Kandungan</td></tr><tr><td colspan="4" id="out_sk"></td></tr>
+            <tr><td class="bg-gray-official" colspan="4" id="lbl_sp">Standard Pembelajaran</td></tr><tr><td colspan="4" id="out_sp" class="text-content"></td></tr>
+            <tr><td class="bg-gray-official" colspan="4" id="lbl_obj">Objektif Pembelajaran</td></tr><tr><td colspan="4" id="out_obj" class="text-content"></td></tr>
+            <tr><td class="bg-gray-official" colspan="4" id="lbl_akt">Aktiviti PdPc</td></tr><tr><td colspan="4" id="out_akt" class="text-content"></td></tr>
+            <tr><td class="bg-gray-official" colspan="4" id="lbl_pbd">Pentaksiran / PBD</td></tr><tr><td colspan="4" id="out_pbd" class="text-content"></td></tr>
             <tr><td class="bg-gray-official" colspan="4" id="lbl_ref">Refleksi</td></tr>
             <tr><td colspan="4" style="height: 100px; vertical-align: top;"><div class="refleksi-line"></div><div class="refleksi-line"></div><div class="refleksi-line"></div></td></tr>
         </table>
     </div>
 
+    <!-- Logic -->
     <script>
-        // --- MASTER DATA ---
-        const masterData = {
-            "Tingkatan 2 (DLP)": {
-                "1.0 BIODIVERSITY": { "1.1 Diversity of organism": ["1.1.1 Elaborate and communicate about biodiversity.", "1.1.2 Justify the needs to manage biodiversity effectively."], "1.2 Classification of organisms": ["1.2.1 Differentiate organisms using a dichotomous key.", "1.2.2 Characterise the major taxonomy group."] },
-                "2.0 ECOSYSTEM": { "2.1 Energy flow in ecosystem": ["2.1.1 Explain with examples of producer, consumer and decomposer.", "2.1.2 Interprete food chain and food web."], "2.2 Nutrient cycle in the ecosystem": ["2.2.1 Elaborate and communicate about the role of living things in cycles.", "2.2.2 Justify the role of organisms in the water cycle.", "2.2.3 Solve problems on interference to cycles."], "2.3 Interdependence": ["2.3.1 Explain interdependence.", "2.3.2 Justify importance of adaptations.", "2.3.3 Communicate examples of interactions.", "2.3.4 Factors affecting population size.", "2.3.5 Predict changes in ecosystem."] },
-                "3.0 NUTRITION": { "3.1 Classes of food": ["3.1.1 Elaborate classes of food.", "3.1.2 Test presence of starch, glucose, protein, fats."], "3.2 Importance of balanced diet": ["3.2.1 Elaborate balanced diet.", "3.2.2 Estimate calories.", "3.2.3 Justify importance of balanced diet."], "3.3 Human digestive system": ["3.3.1 Elaborate about digestion."], "3.4 Absorption and defecation": ["3.4.1 Experiment on absorption.", "3.4.2 Relate digestive, blood, respiratory systems.", "3.4.3 Elaborate about defecation."] },
-                "4.0 HUMAN HEALTH": { "4.1 Infectious diseases": ["4.1.1 Differentiate infectious/non-infectious.", "4.1.2 Explain spread.", "4.1.3 Cause and spread.", "4.1.4 Mechanism to prevent spread."], "4.2 Body defence system": ["4.2.1 Function of body defence.", "4.2.2 Antigens, antibodies, immunity.", "4.2.3 Importance of immunisation.", "4.2.4 Passive vs Active immunity.", "4.2.5 Practices for strong immune system.", "4.2.6 Importance of health level."] },
-                "5.0 WATER AND SOLUTION": { "5.1 Physical characteristics": ["5.1.1 Communicate about water.", "5.1.2 Experiment on evaporation."], "5.2 Solution and solubility": ["5.2.1 Solution and solubility.", "5.2.2 Factors affecting solubility.", "5.2.3 Colloids.", "5.2.4 Water as universal solvent.", "5.2.5 Organic solvents."], "5.3 Purification and supply": ["5.3.1 Purification methods.", "5.3.2 Water supply problems.", "5.3.3 Water supply system model.", "5.3.4 Water sustainability."] },
-                "6.0 ACID AND ALKALI": { "6.1 Properties": ["6.1.1 Properties of acid and alkali.", "6.1.2 Examples of substances.", "6.1.3 Strength (pH).", "6.1.4 Uses in daily life."], "6.2 Neutralisation": ["6.2.1 Neutralisation reaction.", "6.2.2 Uses of neutralisation."] },
-                "7.0 ELECTRICITY AND MAGNETISM": { "7.1 Electricity": ["7.1.1 Energy.", "7.1.2 Electrostatic charges.", "7.1.3 Electrostatic in daily life.", "7.1.4 Flow of charges.", "7.1.5 Current, voltage, resistance.", "7.1.6 Ohm's Law."], "7.2 Series and Parallel": ["7.2.1 Series and parallel circuits."], "7.3 Magnetism": ["7.3.1 Characteristics of magnet.", "7.3.2 Electromagnet.", "7.3.3 Uses of magnet/electromagnet."] },
-                "8.0 FORCE AND MOTION": { "8.1 Force": ["8.1.1 Communicate about force.", "8.1.2 Characteristics of force.", "8.1.3 Measure force.", "8.1.4 Action and reaction force."], "8.2 Effects of force": ["8.2.1 Effects of force.", "8.2.2 Buoyancy and density.", "8.2.3 Levers.", "8.2.4 Moment of force.", "8.2.5 Pressure.", "8.2.6 Gas pressure.", "8.2.7 Atmospheric pressure.", "8.2.8 Liquid pressure."] },
-                "9.0 HEAT": { "9.1 Temperature and heat": ["9.1.1 Compare heat and temperature."], "9.2 Heat flow": ["9.2.1 Heat flow methods.", "9.2.2 Natural phenomena.", "9.2.3 Conductors and insulators."], "9.3 Expansion": ["9.3.1 Expansion in matter.", "9.3.2 Uses in daily life."], "9.4 Heat absorption/emission": ["9.4.1 Dark/dull vs white/shiny (absorb).", "9.4.2 Dark/dull vs white/shiny (radiate).", "9.4.3 Green concept design."] },
-                "10.0 SOUND WAVES": { "10.1 Characteristics": ["10.1.1 Basic characteristics."], "10.2 Loudness and pitch": ["10.2.1 Frequency and amplitude.", "10.2.2 Frequency and pitch.", "10.2.3 Amplitude and loudness.", "10.2.4 Musical instruments."], "10.3 Reflection of sound": ["10.3.1 Echo and Doppler.", "10.3.2 Applications (Sonar).", "10.3.3 Hearing limitations.", "10.3.4 Overcoming limitations."] },
-                "11.0 STARS AND GALAXIES": { "11.1 Stars and galaxies": ["11.1.1 Characteristics of objects in space.", "11.1.2 Compare stars and Sun."] },
-                "12.0 SOLAR SYSTEM": { "12.1 Solar System": ["12.1.1 Distances (A.U. / Light Years).", "12.1.2 Compare planets.", "12.1.3 Relationships of planet characteristics.", "12.1.4 Analogies.", "12.1.5 Earth as ideal planet."] },
-                "13.0 METEOROID, ASTEROID, COMET": { "13.1 Other objects": ["13.1.1 Communicate on other objects.", "13.1.2 Movements and effects.", "13.1.3 Reducing collision risk."] }
-            },
-            "Tingkatan 5": {
-                "1.0 MIKROORGANISMA": { "1.1 Dunia mikroorganisma": ["1.1.1 Berkomunikasi mengenai mikroorganisma.", "1.1.2 Menjalankan eksperimen bagi menunjukkan kewujudan mikroorganisma.", "1.1.3 Menjalankan eksperimen untuk mengkaji faktor yang mempengaruhi pertumbuhan mikroorganisma."], "1.2 Mikroorganisma berfaedah": ["1.2.1 Mewajarkan aplikasi mikroorganisma berfaedah dalam kehidupan.", "1.2.2 Menjana idea potensi kegunaan mikroorganisma dalam bioteknologi dan kelestarian alam sekitar."], "1.3 Pencegahan dan rawatan": ["1.3.1 Menjelaskan konsep 'mencegah lebih baik daripada merawat'.", "1.3.2 Menerangkan teknik aseptik dalam pengawalan penyebaran mikroorganisma.", "1.3.3 Menjalankan eksperimen mengkaji kesan antibiotik terhadap pertumbuhan bakteria.", "1.3.4 Berkomunikasi tentang kaedah rawatan penyakit berjangkit."] },
-                "2.0 NUTRISI DAN TEKNOLOGI MAKANAN": { "2.1 Gizi seimbang dan nilai kalori": ["2.1.1 Memerihalkan gizi seimbang.", "2.1.2 Menjalankan eksperimen untuk menganggarkan nilai kalori dalam sampel makanan.", "2.1.3 Mewajarkan kesan pengambilan jumlah kalori yang tidak menepati keperluan individu."], "2.2 Keperluan nutrien oleh tumbuhan": ["2.2.1 Menjelaskan dengan contoh fungsi makronutrien dan mikronutrien kepada tumbuhan.", "2.2.2 Menjalankan eksperimen untuk mengkaji kesan kekurangan makronutrien kepada tumbuhan."], "2.3 Kitar Nitrogen": ["2.3.1 Berkomunikasi mengenai Kitar Nitrogen dan kepentingannya."], "2.4 Teknologi pengeluaran makanan": ["2.4.1 Berkomunikasi mengenai cara meningkatkan sumber, kualiti makanan dan kuantiti pengeluaran makanan.", "2.4.2 Menilai penggunaan racun serangga dan kawalan biologi."], "2.5 Teknologi pemprosesan makanan": ["2.5.1 Berkomunikasi mengenai teknologi pemprosesan makanan."], "2.6 Makanan dan suplemen kesihatan": ["2.6.1 Berkomunikasi mengenai isu berkaitan makanan kesihatan dan suplemen kesihatan.", "2.6.2 Berkomunikasi mengenai isu berkaitan Status Halal makanan."] },
-                "3.0 KELESTARIAN ALAM SEKITAR": { "3.1 Kitaran hayat produk": ["3.1.1 Menjelaskan maksud jejak karbon.", "3.1.2 Mencerakinkan produk dalam satu hari kehidupan individu.", "3.1.3 Mewajarkan langkah tapak tangan karbon.", "3.1.4 Berkomunikasi mengenai kitar hayat produk.", "3.1.5 Menjana idea pengurusan sisa plastik."], "3.2 Pencemaran alam sekitar": ["3.2.1 Menerangkan jenis dan punca pencemaran.", "3.2.2 Mengkaji tahap pencemaran air sisa domestik.", "3.2.3 Mereka cipta kaedah pembersihan air tercemar."], "3.3 Pemeliharaan dan pemuliharaan": ["3.3.1 Menjustifikasi peranan individu mengurus sumber semula jadi.", "3.3.2 Membahaskan peranan PBB dalam isu alam sekitar."] },
-                "4.0 KADAR TINDAK BALAS": { "4.1 Pengenalan": ["4.1.1 Menjelaskan tindak balas cepat dan perlahan.", "4.1.2 Mentakrif kadar tindak balas.", "4.1.3 Menentukan kadar tindak balas."], "4.2 Faktor mempengaruhi kadar": ["4.2.1 Eksperimen mengkaji faktor kadar tindak balas (suhu, kepekatan, saiz, mangkin)."], "4.3 Aplikasi": ["4.3.1 Berkomunikasi mengenai aplikasi kadar tindak balas."] },
-                "5.0 SEBATIAN KARBON": { "5.1 Pengenalan": ["5.1.1 Mengenal pasti sebatian karbon.", "5.1.2 Menjelaskan kepentingan Kitar Karbon."], "5.2 Hidrokarbon": ["5.2.1 Memerihalkan sebatian hidrokarbon.", "5.2.2 Menamakan ahli alkana dan alkena.", "5.2.3 Berkomunikasi tentang sumber tenaga alternatif."], "5.3 Alkohol": ["5.3.1 Memerihal proses penyediaan alkohol.", "5.3.2 Sifat fizik dan kimia alkohol.", "5.3.3 Kegunaan alkohol.", "5.3.4 Kesan pengambilan alkohol berlebihan."], "5.4 Lemak": ["5.4.1 Kandungan lemak dan sumber.", "5.4.2 Banding beza lemak tepu dan tak tepu.", "5.4.3 Kesan pengambilan lemak berlebihan."], "5.5 Minyak Sawit": ["5.5.1 Struktur buah kelapa sawit.", "5.5.2 Aspek kuantiti minyak.", "5.5.3 Proses pengestrakan.", "5.5.4 Komponen minyak sawit.", "5.5.5 Banding komposisi minyak.", "5.5.6 Sifat kimia.", "5.5.7 Pengemulsian.", "5.5.8 Kandungan nutrisi.", "5.5.9 Mewajarkan penggunaan.", "5.5.10 Eksperimen sabun.", "5.5.11 Tindakan pencucian sabun.", "5.5.12 Pengurusan lestari."] },
-                "6.0 ELEKTROKIMIA": { "6.1 Sel Elektrolitik": ["6.1.1 Memahami elektrolisis.", "6.1.2 Eksperimen elektrolisis sebatian ion.", "6.1.3 Faktor mempengaruhi hasil elektrolisis.", "6.1.4 Aplikasi elektrolisis dalam industri."], "6.2 Sel Kimia": ["6.2.1 Perubahan tenaga sel kimia.", "6.2.2 Menjana idea aplikasi sel kimia."] },
-                "7.0 CAHAYA DAN OPTIK": { "7.1 Kanta": ["7.1.1 Kanta cembung dan cekung.", "7.1.2 Menentukan panjang fokus.", "7.1.3 Menentukan ciri imej."], "7.2 Peralatan optik": ["7.2.1 Pembentukan imej teleskop/mikroskop.", "7.2.2 Membina teleskop ringkas.", "7.2.3 Aplikasi kanta dalam peralatan optik."] },
-                "8.0 DAYA DAN TEKANAN": { "8.1 Tekanan bendalir": ["8.1.1 Konsep tekanan bendalir (Pascal).", "8.1.2 Aplikasi prinsip Pascal.", "8.1.3 Hubungan halaju dan tekanan (Bernoulli).", "8.1.4 Aplikasi prinsip Bernoulli.", "8.1.5 Reka bentuk alat tekanan bendalir."] },
-                "9.0 TEKNOLOGI ANGKASA LEPAS": { "9.1 Satelit": ["9.1.1 Jenis orbit satelit.", "9.1.2 Kedudukan apogi dan perigi.", "9.1.3 Hubungan ketinggian orbit dan halaju.", "9.1.4 Cara pelancaran satelit.", "9.1.5 Menjejaki stesen angkasa.", "9.1.6 Kesan perkembangan pesat teknologi angkasa."], "9.2 GPS": ["9.2.1 Sistem Penentu Sejagat (GPS).", "9.2.2 Aplikasi sistem koordinat GPS."] }
-            },
-            "Tingkatan 3 (DLP)": {
-                "1.0 STIMULI AND RESPONSES": { "1.1 Human nervous system": ["1.1.1 Describe the structures and functions of human nervous system through drawings.", "1.1.2 Make a sequence to show the pathway of impulses.", "1.1.3 Justify the importance of human nervous system."], "1.2 Stimuli and responses in human": ["1.2.1 Draw structures of sensory organs.", "1.2.2 Explain mechanism of hearing and sight.", "1.2.3 Relate sensory organs to sensitivity.", "1.2.4 Explain limitation of senses.", "1.2.5 Justify innovations in sensory organs."], "1.3 Stimuli in plants": ["1.3.1 Describe parts of plant sensitive to stimuli.", "1.3.2 Justify responses in plants.", "1.3.3 Experiments on plant responses."], "1.4 Importance of responses": ["1.4.1 Explain types of sight and hearing in animals.", "1.4.2 Communicate how sensory organs ensure survival."] },
-                "2.0 RESPIRATION": { "2.1 Respiratory system": ["2.1.1 Draw and label human respiratory system.", "2.1.2 Experiments on inhaled and exhaled air."], "2.2 Movement of gases": ["2.2.1 Describe movement of oxygen and CO2.", "2.2.2 Justify adaptation of alveolar structure."], "2.3 Health": ["2.3.1 Communicate about harmful substances.", "2.3.2 Experiment on effects of smoking."], "2.4 Adaptation": ["2.4.1 Justify respiratory adaptation."], "2.5 Exchange in plants": ["2.5.1 Explain gaseous exchange mechanism.", "2.5.2 Justify importance of unpolluted environment."] },
-                "3.0 TRANSPORTATION": { "3.1 Transport system": ["3.1.1 Describe function of transport systems.", "3.1.2 Compare complex and simple organisms.", "3.1.3 Justify importance."], "3.2 Blood circulatory": ["3.2.1 Generalise meaning of blood circulatory.", "3.2.2 Explain structure and functions of heart.", "3.2.3 Experiment on pulse rate.", "3.2.4 Justify healthy heart."], "3.3 Human blood": ["3.3.1 Separate components of blood.", "3.3.2 Identify blood groups.", "3.3.3 Importance of blood donation."], "3.4 Transport in plants": ["3.4.1 Describe transpiration.", "3.4.2 Experiment on transpiration factors.", "3.4.3 Differentiate vascular bundle components."], "3.5 Comparison": ["3.5.1 Compare blood circulatory and plant transport."] },
-                "4.0 REACTIVITY OF METALS": { "4.1 Variety of minerals": ["4.1.1 Explain minerals in Earth crust.", "4.1.2 Identify elements in natural compounds.", "4.1.3 Explain characteristics of natural minerals."], "4.2 Reactivity series": ["4.2.1 Construct reactivity series.", "4.2.2 Determine position of carbon and hydrogen."], "4.3 Extraction": ["4.3.1 Communicate about extraction of metals.", "4.3.2 Generate ideas on solving mining problems."] },
-                "5.0 THERMOCHEMISTRY": { "5.1 Reactions": ["5.1.1 Define endothermic and exothermic.", "5.1.2 Relate heat absorbed or released.", "5.1.3 Experiment to compare reactions.", "5.1.4 Explain with examples.", "5.1.5 Design materials using concepts."] },
-                "6.0 ELECTRICITY AND MAGNETISM": { "6.1 Generation": ["6.1.1 Describe energy sources.", "6.1.2 Explain process of generating electricity.", "6.1.3 Differentiate d.c. and a.c.", "6.1.4 Solve problems related to electricity."], "6.2 Transformer": ["6.2.1 Experiment to build transformer.", "6.2.2 Communicate about transformers.", "6.2.3 Solve numerical problems."], "6.3 Transmission": ["6.3.1 Explain transmission components.", "6.3.2 Explain wiring systems.", "6.3.3 Distinguish safety components.", "6.3.4 Communicate about safety."], "6.4 Cost": ["6.4.1 Define energy efficiency.", "6.4.2 List examples.", "6.4.3 Determine electricity used.", "6.4.4 Calculate cost.", "6.4.5 Audit home energy.", "6.4.6 Ways of saving energy."] },
-                "7.0 ENERGY AND POWER": { "7.1 Work, Energy, Power": ["7.1.1 Define work.", "7.1.2 Relate power with work."], "7.2 Potential & Kinetic": ["7.2.1 Explain gravitational potential energy.", "7.2.2 Calculate elastic potential energy.", "7.2.3 Explain kinetic energy."], "7.3 Conservation": ["7.3.1 Explain Principle of Conservation of Energy.", "7.3.2 Solve problems involving transformation."] },
-                "8.0 RADIOACTIVITY": { "8.1 Discovery": ["8.1.1 Describe history.", "8.1.2 Explain radioactive materials."], "8.2 Atom and nucleus": ["8.2.1 Draw atomic structure.", "8.2.2 Explain ions."], "8.3 Radiation": ["8.3.1 Describe ionising radiation.", "8.3.2 Differentiate three types.", "8.3.3 Explain sources.", "8.3.4 Discuss risks."], "8.4 Usage": ["8.4.1 Communicate about usage.", "8.4.2 Justify proper handling."] },
-                "9.0 SPACE WEATHER": { "9.1 Sun activities": ["9.1.1 Explain structure of Sun.", "9.1.2 Justify magnetosphere."], "9.2 Space weather": ["9.2.1 Communicate about space weather."] },
-                "10.0 SPACE EXPLORATION": { "10.1 Astronomy": ["10.1.1 Explain historical development."], "10.2 Technology": ["10.2.1 Communicate about technology.", "10.2.2 Justify need to continue exploration."] }
-            }
-        };
-
-        // --- LANGUAGE LABELS ---
         const labels = {
             "ms": { subject: "Mata Pelajaran", kelas: "Kelas", tarikh: "Tarikh", masa: "Masa", bab: "Bab / Topik", sk: "Standard Kandungan", sp: "Standard Pembelajaran", obj: "Objektif Pembelajaran", akt: "Aktiviti PdPc", pbd: "Pentaksiran / PBD", ref: "Refleksi" },
             "en": { subject: "Subject", kelas: "Class", tarikh: "Date", masa: "Time", bab: "Theme / Topic", sk: "Content Standard", sp: "Learning Standard", obj: "Learning Objectives", akt: "Activities", pbd: "Assessment / PBD", ref: "Reflection" }
         };
 
-        // --- AI LOGIC ---
         document.getElementById('api_key').value = localStorage.getItem('openai_key') || '';
         function saveApiKey() { localStorage.setItem('openai_key', document.getElementById('api_key').value); }
         function openAIModal(type) { document.getElementById('ai-overlay').style.display = 'block'; document.getElementById('ai-modal').style.display = 'block'; }
@@ -298,19 +217,16 @@
         async function generateContent(type) {
             const apiKey = document.getElementById('api_key').value;
             if(!apiKey) { alert("Sila masukkan API Key."); return; }
-
             const tingkatan = document.getElementById('sel_tingkatan').value;
             const sk = document.getElementById('txt_sk').value;
             const sp = document.getElementById('txt_sp').value;
-
             if(!sk || !sp) { alert("Pilih SK dan SP dahulu."); return; }
             document.getElementById('ai-status').classList.remove('hidden');
 
             const isDLP = tingkatan.includes("DLP");
             const langPrompt = isDLP ? "Output MUST be in ENGLISH." : "Output dalam Bahasa Melayu.";
-
             let userPrompt = `Class: ${tingkatan}. SK: ${sk}. SP: ${sp}. ${langPrompt}`;
-
+            
             if (type === 'obj') userPrompt += ` Provide 2 numbered SMART learning objectives. Format: 1. ... 2. ...`;
             else if (type === 'akt') userPrompt += ` Provide 5E activities (Engage, Explore, Explain, Elaborate, Evaluate) with bullets.`;
             else userPrompt += ` Provide 2 numbered objectives AND 5E activities. Separate with [SPLIT].`;
@@ -336,68 +252,47 @@
             finally { document.getElementById('ai-status').classList.add('hidden'); }
         }
 
-        // --- DROPDOWNS ---
+        // Functions using MASTER_DATA from data.js
         function updateBab() {
             const t = document.getElementById("sel_tingkatan").value;
             const b = document.getElementById("sel_bab");
             const s = document.getElementById("sel_sk");
             const p = document.getElementById("sel_sp");
             
-            b.innerHTML = '<option value="">-- Select --</option>';
-            s.innerHTML = '<option value="">-- Select --</option>';
-            p.innerHTML = '<option value="">-- Select --</option>';
-            
+            b.innerHTML = '<option value="">-- Select --</option>'; s.innerHTML = '<option value="">-- Select --</option>'; p.innerHTML = '<option value="">-- Select --</option>';
             b.disabled = false; s.disabled = true; p.disabled = true;
-            document.getElementById("txt_sk").value = "";
-            document.getElementById("txt_sp").value = "";
+            document.getElementById("txt_sk").value = ""; document.getElementById("txt_sp").value = "";
 
-            if(t) {
-                for(let k in masterData[t]) {
-                    let opt = document.createElement("option");
-                    opt.value = k; opt.text = k;
-                    b.add(opt);
-                }
+            if(t && typeof MASTER_DATA !== 'undefined' && MASTER_DATA[t]) {
+                for(let k in MASTER_DATA[t]) { let opt = document.createElement("option"); opt.value = k; opt.text = k; b.add(opt); }
             }
         }
-
         function updateSK() {
             const t = document.getElementById("sel_tingkatan").value;
             const b = document.getElementById("sel_bab").value;
             const s = document.getElementById("sel_sk");
             s.innerHTML = '<option value="">-- Select --</option>';
-            
-            if(b) {
+            if(b && MASTER_DATA[t][b]) {
                 s.disabled = false;
-                for(let k in masterData[t][b]) {
-                    let opt = document.createElement("option");
-                    opt.value = k; opt.text = k;
-                    s.add(opt);
-                }
+                for(let k in MASTER_DATA[t][b]) { let opt = document.createElement("option"); opt.value = k; opt.text = k; s.add(opt); }
             }
         }
-
         function updateSP() {
             const t = document.getElementById("sel_tingkatan").value;
             const b = document.getElementById("sel_bab").value;
             const s = document.getElementById("sel_sk").value;
             const p = document.getElementById("sel_sp");
-            
             p.innerHTML = '<option value="">-- Add SP --</option>';
-            document.getElementById("txt_sk").value = s;
-            document.getElementById("txt_sp").value = "";
-
-            if(s) {
+            document.getElementById("txt_sk").value = s; document.getElementById("txt_sp").value = "";
+            if(s && MASTER_DATA[t][b][s]) {
                 p.disabled = false;
-                masterData[t][b][s].forEach(item => {
-                    let opt = document.createElement("option");
-                    opt.value = item;
+                MASTER_DATA[t][b][s].forEach(item => {
+                    let opt = document.createElement("option"); opt.value = item;
                     opt.text = item.length > 80 ? item.substring(0,80)+"..." : item;
-                    opt.setAttribute('data-full', item);
-                    p.add(opt);
+                    opt.setAttribute('data-full', item); p.add(opt);
                 });
             }
         }
-
         function addSP() {
             const p = document.getElementById("sel_sp");
             const txt = document.getElementById("txt_sp");
@@ -408,68 +303,37 @@
                 p.selectedIndex = 0;
             }
         }
-
-        // --- PDF GENERATION ---
         function prepareAndPrint() {
-            window.scrollTo(0,0);
-            transferData();
+            window.scrollTo(0,0); transferData();
             document.body.classList.add('generating-mode');
-            
             setTimeout(() => {
                 const element = document.getElementById('pdf-preview-section');
                 const kelas = document.getElementById('inp_kelas').value || 'Kelas';
                 const tarikh = document.getElementById('inp_tarikh').value || 'Tarikh';
-                
-                const opt = {
-                    margin: 0, filename: `RPH_${kelas.replace(/\s/g,'_')}_${tarikh}.pdf`,
-                    image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
-                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-                };
-
-                html2pdf().set(opt).from(element).save().then(() => {
-                    document.body.classList.remove('generating-mode');
-                });
+                const opt = { margin: 0, filename: `RPH_${kelas.replace(/\s/g,'_')}_${tarikh}.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true, scrollY: 0 }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } };
+                html2pdf().set(opt).from(element).save().then(() => { document.body.classList.remove('generating-mode'); });
             }, 500);
         }
-
         function transferData() {
             const tingkatan = document.getElementById("sel_tingkatan").value;
             const isDLP = tingkatan.includes("DLP");
             const lang = isDLP ? labels.en : labels.ms;
-
-            // Update Labels
-            document.getElementById("lbl_subject").innerText = lang.subject;
-            document.getElementById("lbl_kelas").innerText = lang.kelas;
-            document.getElementById("lbl_tarikh").innerText = lang.tarikh;
-            document.getElementById("lbl_masa").innerText = lang.masa;
-            document.getElementById("lbl_bab").innerText = lang.bab;
-            document.getElementById("lbl_sk").innerText = lang.sk;
-            document.getElementById("lbl_sp").innerText = lang.sp;
-            document.getElementById("lbl_obj").innerText = lang.obj;
-            document.getElementById("lbl_akt").innerText = lang.akt;
-            document.getElementById("lbl_pbd").innerText = lang.pbd;
+            document.getElementById("lbl_subject").innerText = lang.subject; document.getElementById("lbl_kelas").innerText = lang.kelas;
+            document.getElementById("lbl_tarikh").innerText = lang.tarikh; document.getElementById("lbl_masa").innerText = lang.masa;
+            document.getElementById("lbl_bab").innerText = lang.bab; document.getElementById("lbl_sk").innerText = lang.sk;
+            document.getElementById("lbl_sp").innerText = lang.sp; document.getElementById("lbl_obj").innerText = lang.obj;
+            document.getElementById("lbl_akt").innerText = lang.akt; document.getElementById("lbl_pbd").innerText = lang.pbd;
             document.getElementById("lbl_ref").innerText = lang.ref;
 
-            // Transfer Values
             const getVal = (id) => document.getElementById(id).value || '-';
             const rawDate = document.getElementById('inp_tarikh').value;
             let dateStr = '-';
-            if (rawDate) {
-                const d = new Date(rawDate);
-                dateStr = d.toLocaleDateString(isDLP ? 'en-GB' : 'ms-MY', {day: '2-digit', month: '2-digit', year: 'numeric'});
-            }
-
-            document.getElementById('out_subject').innerText = getVal('inp_subject');
-            document.getElementById('out_kelas').innerText = getVal('inp_kelas');
-            document.getElementById('out_tarikh').innerText = dateStr;
-            document.getElementById('out_masa').innerText = getVal('inp_masa');
-            document.getElementById('out_bab').innerText = getVal('sel_bab');
-            document.getElementById('out_sk').innerText = getVal('txt_sk');
-            document.getElementById('out_sp').innerText = getVal('txt_sp');
-            document.getElementById('out_obj').innerText = getVal('txt_obj');
-            document.getElementById('out_akt').innerText = getVal('txt_akt');
-            document.getElementById('out_pbd').innerText = getVal('txt_pbd');
+            if (rawDate) { const d = new Date(rawDate); dateStr = d.toLocaleDateString(isDLP ? 'en-GB' : 'ms-MY', {day: '2-digit', month: '2-digit', year: 'numeric'}); }
+            document.getElementById('out_subject').innerText = getVal('inp_subject'); document.getElementById('out_kelas').innerText = getVal('inp_kelas');
+            document.getElementById('out_tarikh').innerText = dateStr; document.getElementById('out_masa').innerText = getVal('inp_masa');
+            document.getElementById('out_bab').innerText = getVal('sel_bab'); document.getElementById('out_sk').innerText = getVal('txt_sk');
+            document.getElementById('out_sp').innerText = getVal('txt_sp'); document.getElementById('out_obj').innerText = getVal('txt_obj');
+            document.getElementById('out_akt').innerText = getVal('txt_akt'); document.getElementById('out_pbd').innerText = getVal('txt_pbd');
         }
     </script>
 </body>
