@@ -1,115 +1,101 @@
 MASTER_DATA["Tingkatan 5"] = {
-
     "1.0 MIKROORGANISMA": {
         "1.1 Dunia mikroorganisma": [
             "1.1.1 Berkomunikasi mengenai mikroorganisma.",
-            "1.1.2 Menjalankan eksperikspirimen bagi menunjukkan kewujudan mikroorganisma.",
-            "1.1.3 Menjalankan eksperimen untuk mengkaji faktor yang mempengaruhi pertumbuhan mikroorganisma."
-        ],
-        "1.2 Mikroorganisma berfaedah": [
-            "1.2.1 Mewajarkan aplikasi mikroorganisma berfaedah dalam kehidupan.",
-            "1.2.2 Menjana idea potensi kegunaan mikroorganisma dalam bioteknologi dan kelestarian alam sekitar."
-        ],
-        "1.3 Pencegahan dan rawatan penyakit yang disebabkan oleh mikroorganisma": [
-            "1.3.1 Menjelaskan konsep ‘mencegah lebih baik daripada merawat’ penyakit yang dibawa oleh mikroorganisma.",
-            "1.3.2 Menerangkan teknik aseptik dalam pengawalan penyebaran mikroorganisma.",
-            "1.3.3 Menjalankan eksperimen mengkaji kesan antibiotik terhadap pertumbuhan bakteria.",
-            "1.3.4 Berkomunikasi tentang kaedah rawatan penyakit berjangkit."
+            "1.1.2 Menerangkan faktor yang mempengaruhi pertumbuhan mikroorganisma.",
+            "1.1.3 Menjalankan eksperimen untuk mengkaji pertumbuhan mikroorganisma.",
+            "1.1.4 Menjelaskan kegunaan mikroorganisma dalam kehidupan harian.",
+            "1.1.5 Mewajarkan kaedah pencegahan penyebaran mikroorganisma."
         ]
     },
 
     "2.0 NUTRISI DAN TEKNOLOGI MAKANAN": {
-        "2.1 Gizi seimbang dan nilai kalori": [
-            "2.1.1 Memerihalkan gizi seimbang.",
-            "2.1.2 Menjalankan eksperimen untuk menganggarkan nilai kalori dalam sampel makanan.",
-            "2.1.3 Mewajarkan kesan pengambilan jumlah kalori yang tidak menepati keperluan individu."
+        "2.1 Keperluan nutrien oleh tumbuhan": [
+            "2.1.1 Menjelaskan dengan contoh fungsi makronutrien dan mikronutrien kepada tumbuhan.",
+            "2.1.2 Menjalankan eksperimen untuk menentukan kekurangan nutrien pada tumbuhan."
         ],
-        "2.2 Keperluan nutrien oleh tumbuhan": [
-            "2.2.1 Menjelaskan dengan contoh fungsi makronutrien dan mikronutrien kepada tumbuhan.",
-            "2.2.2 Menjalankan eksperimen untuk mengkaji kesan kekurangan makronutrien kepada tumbuhan."
-        ],
-        "2.3 Kitar Nitrogen": [
-            "2.3.1 Berkomunikasi mengenai Kitar Nitrogen dan kepentingannya."
-        ],
-        "2.4 Teknologi pengeluaran makanan": [
-            "2.4.1 Berkomunikasi mengenai cara meningkatkan sumber, kualiti makanan dan kuantiti pengeluaran makanan.",
-            "2.4.2 Menilai penggunaan racun serangga dan kawalan biologi dalam meningkatkan kualiti dan kuantiti pengeluaran makanan."
-        ],
-        "2.5 Teknologi pemprosesan makanan": [
-            "2.5.1 Berkomunikasi mengenai teknologi pemprosesan makanan.",
-            "2.5.2 Mewajarkan kepentingan teknologi pemprosesan makanan."
-        ],
-        "2.6 Makanan dan suplemen kesihatan": [
-            "2.6.1 Berkomunikasi mengenai isu berkaitan makanan kesihatan dan suplemen kesihatan.",
-            "2.6.2 Berkomunikasi mengenai isu berkaitan Status Halal makanan."
+        "2.2 Teknologi pengeluaran makanan": [
+            "2.2.1 Menerangkan teknologi pemprosesan makanan.",
+            "2.2.2 Mewajarkan penggunaan bahan tambah makanan.",
+            "2.2.3 Berkomunikasi mengenai isu berkaitan produk kesihatan dan industri makanan."
         ]
     },
 
     "3.0 KELESTARIAN ALAM": {
-        "3.1 Kitaran hayat produk": [
-            "3.1.1 Menjelaskan maksud jejak karbon (carbon footprint).",
-            "3.1.2 Mencerakinkan produk yang digunakan dalam satu hari kehidupan seorang individu.",
-            "3.1.3 Mewajarkan tindakan yang perlu diambil iaitu langkah tapak tangan karbon (carbon handprint) bagi mengurangkan pembebasan gas rumah hijau dalam satu hari kehidupan individu.",
-            "3.1.4 Berkomunikasi mengenai kitar hayat satu produk."
+        "3.1 Pencemaran alam sekitar": [
+            "3.1.1 Menerangkan jenis pencemaran alam sekitar.",
+            "3.1.2 Menganalisis kesan pencemaran terhadap ekosistem.",
+            "3.1.3 Mewajarkan kaedah mengawal pencemaran."
         ],
-        "3.3 Pemeliharaan dan pemuliharaan alam sekitar": [
-            "3.3.1 Menjustifikasi peranan setiap individu dalam mengurus sumber semula jadi untuk mengekalkan keseimbangan alam sekitar.",
-            "3.3.2 Membahaskan peranan Pertubuhan Bangsa-Bangsa Bersatu (PBB) dalam menangani isu alam sekitar pada peringkat global."
+        "3.2 Teknologi hijau": [
+            "3.2.1 Menerangkan konsep teknologi hijau.",
+            "3.2.2 Menghubungkait teknologi hijau dengan kehidupan lestari.",
+            "3.2.3 Membahaskan isu alam sekitar global."
         ]
     },
 
     "4.0 KADAR TINDAK BALAS": {
-        "4.1 Pengenalan kadar tindak balas": [
-            "4.1.1 Menjelaskan melalui contoh tindak balas cepat dan tindak balas perlahan dalam kehidupan harian.",
-            "4.1.2 Mentakrif kadar tindak balas.",
-            "4.1.3 Menentukan kadar tindak balas."
-        ],
-        "4.2 Faktor yang mempengaruhi kadar tindak balas": [
-            "4.2.1 Menjalankan eksperimen untuk mengkaji faktor yang mempengaruhi kadar tindak balas."
-        ],
-        "4.3 Aplikasi kadar tindak balas": [
-            "4.3.1 Berkomunikasi mengenai aplikasi kadar tindak balas dalam kehidupan harian dan industri."
+        "4.1 Kadar tindak balas": [
+            "4.1.1 Menerangkan maksud kadar tindak balas.",
+            "4.1.2 Menghuraikan faktor yang mempengaruhi kadar tindak balas.",
+            "4.1.3 Menjalankan eksperimen untuk mengkaji kadar tindak balas.",
+            "4.1.4 Menyelesaikan masalah melibatkan kadar tindak balas."
         ]
     },
 
     "5.0 SEBATIAN KARBON": {
-        "5.5 Minyak sawit": [
-            "5.5.9 Mewajarkan penggunaan minyak sawit dalam bidang penjagaan kesihatan dan makanan.",
-            "5.5.10 Menjalankan eksperimen menghasilkan sabun melalui proses saponifikasi.",
-            "5.5.11 Berkomunikasi mengenai tindakan pencucian sabun.",
-            "5.5.12 Menjana idea pengurusan yang lestari dan kepentingannya dalam industri kelapa sawit."
+        "5.1 Hidrokarbon": [
+            "5.1.1 Menghuraikan siri homolog dalam hidrokarbon.",
+            "5.1.2 Menerangkan sifat alkana dan alkena.",
+            "5.1.3 Berkomunikasi mengenai kegunaan hidrokarbon dalam kehidupan harian."
+        ],
+        "5.2 Alkohol dan asid karboksilik": [
+            "5.2.1 Menerangkan ciri alkohol dan asid karboksilik.",
+            "5.2.2 Menghubungkait tindak balas pengesteran dalam industri."
         ]
     },
 
-    "6.0 ELEKTROKIMIA": {},
+    "6.0 ELEKTROKIMIA": {
+        "6.1 Sel kimia": [
+            "6.1.1 Menerangkan penghasilan tenaga elektrik dalam sel kimia.",
+            "6.1.2 Menghuraikan tindak balas redoks dalam sel kimia."
+        ],
+        "6.2 Elektrolisis": [
+            "6.2.1 Menerangkan proses elektrolisis.",
+            "6.2.2 Mengaplikasikan elektrolisis dalam industri."
+        ]
+    },
 
     "7.0 CAHAYA DAN OPTIK": {
-        "7.1 Pembentukan imej oleh kanta": [
-            "7.1.1 Memerihalkan kanta cembung sebagai kanta penumpu dan kanta cekung sebagai kanta pencapah.",
-            "7.1.2 Menentukan panjang fokus bagi suatu kanta cembung menggunakan objek jauh.",
-            "7.1.3 Menentukan ciri imej melalui gambarajah sinar untuk imej yang dibentuk oleh kanta cembung dan kanta cekung."
+        "7.1 Pembentukan imej": [
+            "7.1.1 Menerangkan pembentukan imej oleh kanta dan cermin.",
+            "7.1.2 Menyelesaikan masalah berkaitan imej."
+        ],
+        "7.2 Instrumen optik": [
+            "7.2.1 Menghuraikan fungsi mikroskop dan teleskop.",
+            "7.2.2 Mengaplikasikan konsep optik dalam peralatan harian."
         ]
     },
 
     "8.0 DAYA DAN TEKANAN": {
-        "8.1 Tekanan dalam bendalir": []
+        "8.1 Tekanan dalam bendalir": [
+            "8.1.1 Menerangkan tekanan dalam bendalir.",
+            "8.1.2 Mengaplikasikan prinsip Pascal dalam kehidupan."
+        ],
+        "8.2 Tekanan atmosfera": [
+            "8.2.1 Menerangkan kewujudan tekanan atmosfera.",
+            "8.2.2 Menyelesaikan masalah berkaitan tekanan."
+        ]
     },
 
-        "9.0 TEKNOLOGI ANGKASA LEPAS": {
-
+    "9.0 TEKNOLOGI ANGKASA LEPAS": {
         "9.1 Satelit": [
-            "9.1.1 Menerangkan jenis-jenis orbit satelit.",
-            "9.1.2 Menjelaskan dengan menggunakan gambar rajah kedudukan apogi (apogee) dan perigi (perigee) satu satelit dalam orbit elips.",
-            "9.1.3 Membuat perkaitan hubungan antara ketinggian orbit dengan halaju satelit.",
-            "9.1.4 Menerangkan bagaimana satelit dilancarkan dan ditempatkan dalam orbit.",
-            "9.1.4 Menerangkan fungsi stesen angkasa.",
-            "9.1.5 Berkomunikasi mengenai kaedah menjejaki stesen angkasa.",
-            "9.1.6 Menghuraikan kesan perkembangan pesat dalam teknologi angkasa lepas."
+            "9.1.1 Menerangkan jenis orbit satelit.",
+            "9.1.2 Menjelaskan kegunaan satelit dalam kehidupan."
         ],
-
-        "9.2 Sistem Penentu Sejagat (Global Positioning System, GPS)": [
-            "9.2.1 Menjelaskan tentang Sistem Penentu Sejagat (Global Positioning System, GPS)",
-            "9.2.2 Mengaplikasikan sistem koordinat GPS untuk tujuan navigasi"
+        "9.2 Sistem Penentu Sejagat (GPS)": [
+            "9.2.1 Menerangkan konsep GPS.",
+            "9.2.2 Mengaplikasikan GPS dalam navigasi."
         ]
     }
 };
