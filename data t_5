@@ -1,75 +1,13 @@
-const DATA_T5 = {
-    "1.0 MIKROORGANISMA": {
-        "1.1 Dunia mikroorganisma": [
-            "1.1.1 Berkomunikasi mengenai mikroorganisma.",
-            "1.1.2 Menjelaskan faktor yang mempengaruhi pertumbuhan mikroorganisma.",
-            "1.1.3 Menjalankan eksperimen untuk mengkaji pertumbuhan mikroorganisma.",
-            "1.1.4 Menjelaskan kegunaan mikroorganisma dalam kehidupan harian.",
-            "1.1.5 Mewajarkan kaedah pencegahan penyebaran mikroorganisma."
-        ]
-    },
+(function(){
+if(typeof MASTER_DATA === "undefined") return;
 
-    "2.0 NUTRISI DAN TEKNOLOGI MAKANAN": {
-        "2.1 Keperluan nutrien oleh tumbuhan": [
-            "2.1.1 Menjelaskan dengan contoh fungsi makronutrien dan mikronutrien kepada tumbuhan."
-        ],
-        "2.2 Pengeluaran makanan": [
-            "2.2.1 Menerangkan teknologi pemprosesan makanan.",
-            "2.2.2 Mewajarkan penggunaan bahan tambah makanan."
-        ]
-    },
-
-    "3.0 KELESTARIAN ALAM": {
-        "3.1 Pencemaran alam sekitar": [
-            "3.1.1 Menerangkan jenis pencemaran alam sekitar.",
-            "3.1.2 Menganalisis kesan pencemaran terhadap ekosistem."
-        ],
-        "3.2 Teknologi hijau": [
-            "3.2.1 Menerangkan konsep teknologi hijau.",
-            "3.2.2 Menghubungkait teknologi hijau dengan kehidupan lestari."
-        ]
-    },
-
-    "4.0 KADAR TINDAK BALAS": {
-        "4.1 Kadar tindak balas": [
-            "4.1.1 Menerangkan maksud kadar tindak balas.",
-            "4.1.2 Menghuraikan faktor yang mempengaruhi kadar tindak balas."
-        ]
-    },
-
-    "5.0 SEBATIAN KARBON": {
-        "5.1 Hidrokarbon": [
-            "5.1.1 Menghuraikan siri homolog hidrokarbon.",
-            "5.1.2 Menerangkan sifat alkana dan alkena."
-        ]
-    },
-
-    "6.0 ELEKTROKIMIA": {
-        "6.1 Sel kimia": [
-            "6.1.1 Menerangkan penghasilan tenaga elektrik dalam sel kimia."
-        ],
-        "6.2 Elektrolisis": [
-            "6.2.1 Menerangkan proses elektrolisis."
-        ]
-    },
-
-    "7.0 CAHAYA DAN OPTIK": {
-        "7.1 Pembentukan imej": [
-            "7.1.1 Menerangkan pembentukan imej oleh kanta dan cermin."
-        ]
-    },
-
-    "8.0 DAYA DAN TEKANAN": {
-        "8.1 Tekanan dalam bendalir": [
-            "8.1.1 Menerangkan tekanan dalam bendalir."
-        ]
-    },
-
-    "9.0 TEKNOLOGI ANGKASA LEPAS": {
-        "9.1 Satelit": [
-            "9.1.1 Menerangkan jenis orbit satelit."
+MASTER_DATA["Tingkatan 5"] = {
+    "TEST BAB": {
+        "TEST SK": [
+            "TEST SP 1",
+            "TEST SP 2"
         ]
     }
 };
 
-MASTER_DATA["Tingkatan 5"] = DATA_T5;
+})();
