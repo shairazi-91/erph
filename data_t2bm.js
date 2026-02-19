@@ -1,4 +1,4 @@
-MASTER_DATA["Tingkatan 2"] = {
+MASTER_DATA["Tingkatan 2bm"] = {
     "1.0 BIODIVERSITI": {
         "1.1 Kepelbagaian organisma": [
             "1.1.1 Menghuraikan dan berkomunikasi mengenai biodiversiti.", 
